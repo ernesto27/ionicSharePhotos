@@ -1,6 +1,19 @@
 /* Empty. Add your own CSS if you like */
 
 /* Index view styles */
-.thumbs-up-clicked{
-	color: blue;
+
+ion-header-bar{
+	background-color: rgb(20, 97, 200) !important;
+}
+
+ion-header-bar.bar.bar-stable .title{
+	color:white;
+}
+
+ion-header-bar.bar-stable .button.button-icon {
+	color: white;
+}
+
+ion-header-bar.bar-stable .button.button-clear{
+	color: white;
 }
