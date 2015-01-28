@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.controllers.home',  'photoShare.services'])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -21,7 +21,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+// ionic run android --target=580400ef
+
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider ) {
 
   // Put tab in botton
   $ionicConfigProvider.tabs.position("bottom");
@@ -41,12 +43,42 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.home', {
-    url: '/home',
+  .state('tab.posts', {
+    url: '/posts',
     views: {
-      'tab-home': {
-        templateUrl: 'templates/tab-home.html',
-        controller: 'HomeCtrl'
+      'tab-posts': {
+        templateUrl: 'templates/tab-posts.html',
+        controller: 'PostsCtrl'
+      }
+    }
+  })
+
+  .state('tab.post-comments', {
+    url: '/post/:id/comments',
+    views: {
+      'tab-posts': {
+        templateUrl: 'templates/tab-post-comments.html',
+        controller: 'CommentsCtrl'
+      }
+    }
+  })
+
+
+  .state('tab.friends', {
+    url: '/friends',
+    views: {
+      'tab-friends': {
+        templateUrl: 'templates/tab-friends.html',
+        controller: 'FriendsCtrl'
+      }
+    }
+  })
+  .state('tab.friend-detail', {
+    url: '/friend/:friendId',
+    views: {
+      'tab-friends': {
+        templateUrl: 'templates/friend-detail.html',
+        controller: 'FriendDetailCtrl'
       }
     }
   })
@@ -80,24 +112,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   	}
   })
 
-  .state('tab.friends', {
-  	url: '/friends',
-  	views: {
-  		'tab-friends': {
-  			templateUrl: 'templates/tab-friends.html',
-  			controller: 'FriendsCtrl'
-  		}
-  	}
-  })
-  .state('tab.friend-detail', {
-  	url: '/friend/:friendId',
-  	views: {
-  		'tab-friends': {
-  			templateUrl: 'templates/friend-detail.html',
-  			controller: 'FriendDetailCtrl'
-  		}
-  	}
-  })
+  
+  
 
   .state('tab.account', {
   	url: '/account',
@@ -110,6 +126,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+  $urlRouterProvider.otherwise('/tab/posts');
 
 });

@@ -1,7 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('photoShare.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
-.controller('HomeCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   $scope.chats = Chats.all();
