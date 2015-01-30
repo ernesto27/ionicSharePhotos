@@ -12,8 +12,11 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
 
-  <!-- Chats Tab -->
-  <ion-tab title="Upload" icon-off="ion-ios7-plus" icon-on="ion-ios7-plus" href="#/tab/upload">
+  <ion-tab title="Search" icon-off="ion-ios7-search" icon-on="ion-ios7-search" >
+    <ion-nav-view name="tab-search"></ion-nav-view>
+  </ion-tab>
+  
+  <ion-tab title="Upload" icon-off="ion-ios7-plus" icon-on="ion-ios7-plus" ng-click="uploadPhoto()">
     <ion-nav-view name="tab-upload"></ion-nav-view>
   </ion-tab>
 

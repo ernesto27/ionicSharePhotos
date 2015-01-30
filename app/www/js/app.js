@@ -5,7 +5,12 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.controllers.home',  'photoShare.services'])
+angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.controllers.home',  
+                              'photoShare.services', 'photoShare.services.posts'])
+.constant("URL",{
+    "dev": "192.168.1.33:8888",
+    "prod": "http://photoshare-siteapps.rhcloud.com/"
+})
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -35,11 +40,14 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
   $stateProvider
 
   // setup an abstract state for the tabs directive
+
   .state('tab', {
   	url: "/tab",
   	abstract: true,
   	templateUrl: "templates/tabs.html"
   })
+
+
 
   // Each tab has its own nav history stack:
 
@@ -53,7 +61,7 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
     }
   })
 
-  .state('tab.post-comments', {
+  .state('tab.postcomments', {
     url: '/post/:id/comments',
     views: {
       'tab-posts': {
@@ -62,6 +70,9 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
       }
     }
   })
+
+
+
 
 
   .state('tab.friends', {
@@ -128,4 +139,44 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/posts');
 
-});
+})
+.controller('AppCtrl', function($scope, $rootScope, $http, $ionicLoading, $timeout) {
+  
+  $scope.uploadPhoto = function(){
+    // Show loading
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+
+    navigator.camera.getPicture(onSuccess, onFail, { 
+        quality: 80,
+        destinationType: Camera.DestinationType.DATA_URL,
+        correctOrientation: true 
+      });
+       
+      function onSuccess(imageData) {
+          $http({
+            method: "POST",
+              url: "http://192.168.1.33:8888/posts",
+              //url: "http://photoshare-siteapps.rhcloud.com/posts",
+              data:  $.param({'data' : {imageData: imageData} }),
+              //data:  imageData,
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }).success(function(data){
+            //alert(data)
+            // Add new post to list
+            $ionicLoading.hide();
+            $rootScope.posts.splice(0, 0, data)
+          }).error(function(err){
+            alert(err)
+          })
+      }
+       
+      function onFail(message) {
+          alert('Failed because: ' + message);
+      }
+    }
+})
+
+;
