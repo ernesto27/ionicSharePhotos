@@ -6,7 +6,8 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.controllers.home',  
-                              'photoShare.services', 'photoShare.services.posts'])
+                              'photoShare.services', 'photoShare.services.posts',
+                              'angularMoment'])
 .constant("URL",{
     "dev": "192.168.1.33:8888",
     "prod": "http://photoshare-siteapps.rhcloud.com/"

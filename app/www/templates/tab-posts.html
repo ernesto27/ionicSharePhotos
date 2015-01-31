@@ -1,6 +1,6 @@
 <ion-view view-title="Posts" hide-back-button="true">
   <ion-nav-buttons side="secondary">
-      <a class="button button-icon icon ion-refresh"></a>
+      <a class="button button-icon icon ion-refresh" ng-click="doRefresh()"></a>
     </ion-nav-buttons>
 
   <ion-content class="padding">
@@ -10,7 +10,7 @@
       <div class="item item-avatar">
         <img src="img/mcfly.jpg">
         <h2>{{ post.User.username }}</h2>
-        <p>{{ post.createdAt }}</p>
+        <p><span am-time-ago="post.createdAt"></span></p>
       </div>
 
       <div class="item item-body">
@@ -40,6 +40,11 @@
         </a>
       </div>
     </div>
+
+    <ion-infinite-scroll
+      on-infinite="loadMore()"
+      distance="1%">
+    </ion-infinite-scroll>
 
   </ion-content>
 </ion-view>

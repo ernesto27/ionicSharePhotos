@@ -1,40 +1,48 @@
 angular.module('photoShare.controllers.home', [])
 
-.controller('PostsCtrl', function($scope, $rootScope, Post, URL){
-	Post.all().success(function(posts){
-		//$scope.posts = posts;
+.controller('PostsCtrl', function($scope, $rootScope, $ionicLoading, Post, URL){
+	var offset = 0;
+
+	function getPost(offset, callback){
+		$ionicLoading.show({
+	      template: 'Loading...'
+	    });
+
+		Post.all(offset).success(function(posts){
+			$ionicLoading.hide();
+			//$rootScope.posts = posts;
+			callback(posts);
+			
+		});
+	}
+
+	getPost(offset, function(posts){
 		$rootScope.posts = posts;
-	})
+	});
 
-	/*
-	var posts = [
-		{
-			id: 1,
-			username: "Ernesto",
-			avatar: "img/mcfly.jpg",
-			fecha: "Nov 2015",
-			postImage: "img/delorean.jpg",
-			description: "This is a description"
-		},
-		{
-			id: 2,
-			username: "Jose",
-			avatar: "img/mcfly.jpg",
-			fecha: "Dic 2015",
-			postImage: "img/delorean.jpg",
-			description: "This is a description"
-		}
+	$scope.doRefresh = function(){
+		getPost(0, function(){});
+	};
 
-	];
-
-	$scope.posts = posts;
-	*/
-
+	$scope.loadMore = function(){
+		console.log("Load more")
+		getPost(offset + 5, function(posts){
+			console.log($rootScope.posts)
+			
+			angular.forEach(posts, function(post, index){
+				$rootScope.posts.push(post);
+			});
+			console.log($rootScope.posts)
+		});
+		setTimeout(function(){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		}, 3000)
+	};
 
 	$scope.likePost = function(){
 		$scope.clickedLike = 'activated';
 		$scope.$apply();
-	}
+	};
 })
 
 .controller('CommentsCtrl', function($scope){
