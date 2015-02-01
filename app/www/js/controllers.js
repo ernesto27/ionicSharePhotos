@@ -25,4 +25,8 @@ angular.module('photoShare.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+
+  $scope.doLogout = function(){
+    localStorage.removeItem("user");
+  }
 });

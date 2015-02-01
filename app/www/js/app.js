@@ -5,12 +5,13 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.controllers.home',  
-                              'photoShare.services', 'photoShare.services.posts',
+angular.module('photoShare', ['ionic', 
+                              'photoShare.controllers','photoShare.controllers.home', 'photoShare.controllers.users', 
+                              'photoShare.services', 'photoShare.services.users', 'photoShare.services.posts',
                               'angularMoment'])
 .constant("URL",{
-    "dev": "192.168.1.33:8888",
-    "prod": "http://photoshare-siteapps.rhcloud.com/"
+    "DEV": "http://192.168.1.35:8888",
+    "PROD": "http://photoshare-siteapps.rhcloud.com/"
 })
 
 .run(function($ionicPlatform) {
@@ -42,11 +43,28 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
 
   // setup an abstract state for the tabs directive
 
+ 
+  .state('login', {
+    url: '/login',
+    templateUrl: "templates/login.html",
+    controller: 'LoginCtrl'
+  })
+
+  .state('register', {
+    url: '/register',
+    templateUrl: "templates/register.html",
+    controller: 'RegisterCtrl'
+  })
+
+
+
   .state('tab', {
   	url: "/tab",
   	abstract: true,
   	templateUrl: "templates/tabs.html"
   })
+
+
 
 
 
@@ -138,10 +156,14 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/posts');
+  //$urlRouterProvider.otherwise('/tab/posts');
+  $urlRouterProvider.otherwise('/login');
 
 })
 .controller('AppCtrl', function($scope, $rootScope, $http, $ionicLoading, $timeout) {
+
+  console.log("Main controller")
+
   
   $scope.uploadPhoto = function(){
     // Show loading
@@ -153,13 +175,15 @@ angular.module('photoShare', ['ionic', 'photoShare.controllers', 'photoShare.con
     navigator.camera.getPicture(onSuccess, onFail, { 
         quality: 80,
         destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth: 800,
+        targetHeight: 600,
         correctOrientation: true 
       });
        
       function onSuccess(imageData) {
           $http({
             method: "POST",
-              url: "http://192.168.1.33:8888/posts",
+              url: "http://192.168.1.35:8888/posts",
               //url: "http://photoshare-siteapps.rhcloud.com/posts",
               data:  $.param({'data' : {imageData: imageData} }),
               //data:  imageData,

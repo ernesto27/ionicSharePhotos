@@ -1,0 +1,17 @@
+<ion-view view-title="Login">
+  <ion-content class="padding">
+   <div class="list">
+	  <label class="item item-input">
+	    <input type="text" placeholder="Email" ng-model="email.value">
+	  </label>
+	  <label class="item item-input">
+	    <input type="password" placeholder="Password" ng-model="password.value">
+	  </label>
+
+	</div>
+	<div class="padding">
+       <button class="button button-block button-positive" ng-click="doLogin()">Login</button>
+       <a href="#/register">Or create a new account	</a>
+    </div>
+  </ion-content>
+</ion-view>
