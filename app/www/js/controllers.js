@@ -21,12 +21,13 @@ angular.module('photoShare.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, $location) {
   $scope.settings = {
     enableFriends: true
   };
 
   $scope.doLogout = function(){
     localStorage.removeItem("user");
+    $location.path('/login');
   }
 });

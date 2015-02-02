@@ -4,7 +4,7 @@ angular.module('photoShare.services.users', [])
 	var _login = function(data){
 		return $http({
 	      method: "POST",
-	        url: URL.DEV + "/users/login",
+	        url: URLSERVER + "users/login",
 	        data: $.param({'data' : data}),
 	        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	    });
@@ -13,7 +13,7 @@ angular.module('photoShare.services.users', [])
 	var _register = function(data){
 		return $http({
 	      method: "POST",
-	        url: URL.DEV + "/users/register",
+	        url: URLSERVER + "users/register",
 	        data: $.param({'data' : data}),
 	        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	    });

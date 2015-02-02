@@ -1,24 +1,30 @@
 <ion-view view-title="Comments">
-
+  <form name="playerForm">
   <ion-content class="padding">
+      <div>
+      
+      <label class="item item-input">
+        <textarea placeholder="Comments" ng-model="comment.value"></textarea>
+      </label>
+      <button class="button button-block button-positive" ng-click="addComment()">Send {{ test }}</button>
+ 
+      </div>
+
+
+    <p ng-show="!comments.length">No comments yet!</p>
     <ion-list>
-      <ion-item class="item-avatar" ng-repeat="user in users" type="item-text-wrap">
-        <img ng-src="{{user.face}}">
-        <h2>{{user.name}}</h2>
-        <p>This is a comments</p>
+      <ion-item class="item-avatar" ng-repeat="comment in comments" type="item-text-wrap">
+      <!-- http://192.168.1.35:8888/  http://photoshare-siteapps.rhcloud.com/ -->
+        <img ng-src="{{url}}{{comment.User.avatar}}">
+        <h2>{{comment.User.username}}</h2>
+        <p>{{comment.comment}}</p>
       </ion-item>
     </ion-list>    
 
-    <div class="list">
-
-	  <label class="item item-input">
-	    <textarea placeholder="Comments" autofocus></textarea>
-	  </label>
-	  <button class="button button-block button-positive">Send</button>
-	</div>
-
-
   </ion-content>
+  </form>
+
+ 
 
 </ion-view>
 

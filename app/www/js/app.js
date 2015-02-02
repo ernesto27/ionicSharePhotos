@@ -1,3 +1,7 @@
+var dev = "http://192.168.1.34:8888/";
+var prod = "http://photoshare-siteapps.rhcloud.com/";
+var URLSERVER = dev;
+
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -6,11 +10,13 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('photoShare', ['ionic', 
-                              'photoShare.controllers','photoShare.controllers.home', 'photoShare.controllers.users', 
+                              'photoShare.controllers','photoShare.controllers.posts', 'photoShare.controllers.users', 
+                              'photoShare.controllers.comments', 
                               'photoShare.services', 'photoShare.services.users', 'photoShare.services.posts',
+                              'photoShare.services.comments',
                               'angularMoment'])
 .constant("URL",{
-    "DEV": "http://192.168.1.35:8888",
+    "DEV": "http://192.168.1.35:8888/",
     "PROD": "http://photoshare-siteapps.rhcloud.com/"
 })
 
@@ -91,9 +97,6 @@ angular.module('photoShare', ['ionic',
   })
 
 
-
-
-
   .state('tab.friends', {
     url: '/friends',
     views: {
@@ -157,13 +160,19 @@ angular.module('photoShare', ['ionic',
 
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/tab/posts');
-  $urlRouterProvider.otherwise('/login');
+  //$urlRouterProvider.otherwise('/login');
 
 })
-.controller('AppCtrl', function($scope, $rootScope, $http, $ionicLoading, $timeout) {
+.controller('AppCtrl', function($scope, $rootScope, $http, 
+                                $ionicLoading, $timeout, $location) {
 
   console.log("Main controller")
-
+  // Check if user is logged
+  if(localStorage.getItem('user')){
+    $location.path('/tab/posts');
+  }else{
+    $location.path('/login');
+  }
   
   $scope.uploadPhoto = function(){
     // Show loading
@@ -183,8 +192,8 @@ angular.module('photoShare', ['ionic',
       function onSuccess(imageData) {
           $http({
             method: "POST",
-              url: "http://192.168.1.35:8888/posts",
-              //url: "http://photoshare-siteapps.rhcloud.com/posts",
+              //url: "http://192.168.1.35:8888/posts",
+              url: "http://photoshare-siteapps.rhcloud.com/posts",
               data:  $.param({'data' : {imageData: imageData} }),
               //data:  imageData,
               headers: {'Content-Type': 'application/x-www-form-urlencoded'}

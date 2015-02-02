@@ -32,7 +32,7 @@ angular.module('photoShare.controllers.users', [])
 		}
 	}
 })
-.controller('LoginCtrl', function($scope, $ionicPopup, $ionicLoading, User){
+.controller('LoginCtrl', function($scope, $ionicPopup, $ionicLoading, User, $location){
 	console.log('User ctrl');
 
 	$scope.email = { value: '' };
@@ -55,13 +55,14 @@ angular.module('photoShare.controllers.users', [])
 				if(data.status == "ok"){
 					// Save user logged data for test
 					var user = {
+						id: data.user.id,
 						name: data.user.username,
 					    avatar: data.user.avatar,
 						token: data.user.app_token
 					};
 
 					localStorage.setItem("user", JSON.stringify(user));
-					alert("You are in ");
+					$location.path('/tab/posts');
 					return;
 				}
 
